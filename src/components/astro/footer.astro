@@ -1,0 +1,46 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="relative z-1 h-full flex flex-col">
+
+    <img src="/img/bg-footer.jpg" alt="footer" class="absolute -z-1 right-0 bottom-0" />
+    <img src="/img/bg-footer.jpg" alt="footer" class="absolute -z-1 left-0 bottom-0 -translate-x-10" />
+    <p class="uppercase absolute font-black text-[45px] lg:text-[160px] leading-none text-unag-dark-green ml-5 lg:ml-30 top-67 lg:top-45 select-none">Cultivando</p>
+    
+    
+    <div class="relative w-[90vw] lg:w-[70vw] h-150 bg-unag-dark-green rounded-tl-4xl rounded-tr-4xl mt-auto lg:mx-auto">
+        
+        <p class="z-1 absolute text-[50px] lg:text-[170px] leading-none text-white -translate-y-2 translate-x-5 lg:translate-x-20 texto-cursiva select-none ">Conocimiento
+        </p>
+        
+       <a href="/">
+         <img src="/img/logo-revista-blanco.png" alt="logo-revista-cientifica-unag" class="w-75 lg:w-110 absolute left-0 bottom-25 lg:bottom-5" />
+       </a>
+        <img src="/img/logo-editorial.png" alt="logo-revista-cientifica-unag" class="w-50 lg:w-70 absolute right-0 bottom-15 lg:bottom-5" />
+
+        <div class="grid grid-cols-2 mt-50">
+            <div></div>
+            <div>
+                <ul class="text-white text-sm text-end mr-10">
+                    <li class="mb-2"><a class="texto-cursiva text-4xl hover:text-unag-green" href="/">Portal</a></li>
+                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/revistas">Revistas</a></li>
+                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/editorial">Editorial</a></li>
+                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/contacto">Contacto</a></li>
+                </ul>
+            </div>
+
+        </div>
+        
+        <p class="absolute bottom-3 text-white text-sm left-0 right-0 mx-auto w-fit mb-3 px-5">
+            © {year} Editorial UNAG. Todos los derechos reservados.
+        </p>
+
+    </div>
+    
+    <div class="flex flex-row">
+        <div class="w-[70%] h-2 bg-unag-green select-none"></div>
+        <div class="w-[30%] h-2 bg-unag-yellow select-none"></div>
+    </div>
+
+</footer>

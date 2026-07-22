@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Nothing+You+Could+Do&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-family-sans: "Montserrat", sans-serif;
+  --color-unag-green: #1ba333;
+  --color-unag-dark-green: #00371d;
+  --color-unag-light-green: #6cc836;
+  --color-unag-yellow: #ffcc00;
+  --color-unag-overlay-green: #e5ffd5;
+  --color-unag-gray: #303030;
+  --color-unag-light-gray: #efefef;
+}
+
+@layer utilities {
+  * {
+    font-family: var(--font-family-sans) !important;
+  }
+
+  .texto-cursiva {
+    font-family: "Nothing You Could Do", sans-serif !important;
+  }
+
+  ::selection {
+    background: var(--color-unag-green);
+    color: #ffffff;
+  }
+
+  ::-moz-selection {
+    background: var(--color-unag-green);
+    color: #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-unag-dark-green);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-unag-green);
+    border-radius: 10px;
+  }
+}
