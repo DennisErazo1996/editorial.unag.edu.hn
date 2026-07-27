@@ -2,24 +2,24 @@
 
 ---
 
-<header class="shrink-0 relative bg-white z-10">
-    <div class="flex items-center justify-between gap-6 px-6 md:px-10 pt-8 pb-1">
+<header id="site-header" class="shrink-0 relative bg-white z-50 w-full transition-[background-color,box-shadow,padding] duration-300">
+    <div id="header-inner" class="flex items-center justify-between gap-6 px-6 md:px-10 pt-3 pb-1 transition-[padding] duration-300">
 
-        <div class="flex items-center gap-8 md:gap-15">
-            <a href="/" class="shrink-0">
-                <img src="/img/logo-revista-lema.png" alt="Logo" class="w-40 md:w-100" />
-            </a>
-
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="/" class="text-unag-dark-green hover:text-unag-green transition-colors">Inicio</a>
-                <a href="/about" class="text-unag-dark-green hover:text-unag-green transition-colors">Acerca de</a>
-                <a href="/contact" class="text-unag-dark-green hover:text-unag-green transition-colors">Contacto</a>
-            </nav>
-        </div>
-
-        <a href="/submit" class="hidden md:inline-flex items-center bg-unag-dark-green hover:bg-unag-green text-white hover:text-white font-bold text-sm px-5 py-2.5 rounded-full shadow-sm transition-colors">
-            Enviar Artículo
+        <a href="/" class="shrink-0 mb-2 mt-2">
+            <img id="site-logo" src="/img/logo-revista-lema.png" alt="Logo" class="w-40 md:w-80" />
         </a>
+
+        <div class="hidden md:flex items-center bg-unag-dark-green rounded-full p-1.5 pl-7 gap-8">
+            <nav class="flex items-center gap-8 text-sm font-medium text-white">
+                <a href="/" class="hover:text-unag-yellow transition-colors">Inicio</a>
+                <a href="/about" class="hover:text-unag-yellow transition-colors">Acerca de</a>
+                <a href="/archivos" class="hover:text-unag-yellow transition-colors">Archivos</a>
+            </nav>
+
+            <a href="/submit" class="inline-flex items-center bg-unag-green hover:bg-unag-yellow text-white hover:text-unag-dark-green font-bold text-sm px-6 py-2.5 rounded-full transition-colors">
+                Enviar Artículo
+            </a>
+        </div>
 
         <button id="menu-toggle" type="button" class="md:hidden cursor-pointer p-2 -mr-2 text-unag-dark-green" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
             <svg id="icon-open" class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -33,13 +33,14 @@
         <nav id="mobile-menu" class="hidden md:hidden flex-col gap-1 absolute top-full left-0 right-0 bg-white border-t border-unag-light-gray px-6 py-4 shadow-md">
             <a href="/" class="text-unag-dark-green hover:text-unag-green py-2 transition-colors">Inicio</a>
             <a href="/about" class="text-unag-dark-green hover:text-unag-green py-2 transition-colors">Acerca de</a>
-            <a href="/contact" class="text-unag-dark-green hover:text-unag-green py-2 transition-colors">Contacto</a>
-            <a href="/submit" class="mt-2 inline-flex items-center justify-center bg-unag-yellow hover:bg-unag-green text-unag-dark-green hover:text-white font-bold text-sm px-5 py-2.5 rounded-full shadow-sm transition-colors">
+            <a href="/archivos" class="text-unag-dark-green hover:text-unag-green py-2 transition-colors">Archivos</a>
+            <a href="/submit" class="mt-2 inline-flex items-center justify-center bg-unag-green hover:bg-unag-yellow text-white hover:text-unag-dark-green font-bold text-sm px-5 py-2.5 rounded-full shadow-sm transition-colors">
                 Enviar Artículo
             </a>
         </nav>
     </div>
 </header>
+<div id="header-spacer" class="hidden md:block" style="height:0px"></div>
 
 <script>
     const toggle = document.getElementById('menu-toggle');
@@ -55,4 +56,56 @@
         iconClose?.classList.toggle('hidden');
         toggle.setAttribute('aria-expanded', String(!isOpen));
     });
+
+    const header = document.getElementById('site-header');
+    const headerInner = document.getElementById('header-inner');
+    const spacer = document.getElementById('header-spacer');
+    const logo = document.getElementById('site-logo');
+    const desktopQuery = window.matchMedia('(min-width: 768px)');
+
+    const LOGO_DEFAULT = '/img/logo-revista-lema.png';
+    const LOGO_GLASS = '/img/logo-revista-lema-verde.png';
+
+    const GLASS_CLASSES = ['bg-white/70', 'backdrop-blur-xl', 'shadow-lg', 'saturate-150'];
+    const SOLID_CLASSES = ['bg-white'];
+
+    function setLogo(src : any) {
+        if (logo instanceof HTMLImageElement && logo.getAttribute('src') !== src) {
+            logo.src = src;
+        }
+    }
+
+    function applyScrollState() {
+        if (!header || !headerInner || !spacer) return;
+
+        if (!desktopQuery.matches) {
+            header.classList.remove('fixed', 'top-0', 'left-0', 'right-0', ...GLASS_CLASSES);
+            header.classList.add('relative', ...SOLID_CLASSES);
+            headerInner.classList.remove('pt-4', 'pb-1');
+            spacer.style.height = '0px';
+            setLogo(LOGO_DEFAULT);
+            return;
+        }
+
+        const scrolled = window.scrollY > 20;
+
+        if (scrolled) {
+            spacer.style.height = `${header.offsetHeight}px`;
+            header.classList.remove('relative', ...SOLID_CLASSES);
+            header.classList.add('fixed', 'top-0', 'left-0', 'right-0', ...GLASS_CLASSES);
+            headerInner.classList.add('pt-4', 'pb-1');
+            setLogo(LOGO_GLASS);
+        } else {
+            header.classList.remove('fixed', 'top-0', 'left-0', 'right-0', ...GLASS_CLASSES);
+            header.classList.add('relative', ...SOLID_CLASSES);
+            headerInner.classList.remove('pt-4', 'pb-1');
+            spacer.style.height = '0px';
+            setLogo(LOGO_DEFAULT);
+        }
+    }
+
+    window.addEventListener('scroll', applyScrollState, { passive: true });
+    window.addEventListener('resize', applyScrollState);
+    desktopQuery.addEventListener('change', applyScrollState);
+    applyScrollState();
 </script>
