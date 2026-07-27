@@ -1,9 +1,71 @@
 ---
 import Footer from '@/components/astro/footer.astro';
+import Header from '@/components/astro/header.astro';
+import Hero from '@/components/astro/hero.astro';
 import Main from '@/layouts/Main.astro';
 
 ---
 
 <Main>
+	<div class="min-h-screen flex flex-col">
+		<Header />
+		<Hero />
+	</div>
+
+	<section class="max-w-7xl mx-auto mt-25 z-1 p-5 md:p-0">
+		<h1 class="texto-cursiva text-7xl text-unag-dark-green">Enfoque y Alcance</h1>
+		<p class="text-unag-gray mt-2">
+			La Revista Científica UNAG es una publicación editada por la Universidad
+			Nacional de Agricultura (UNAG), Honduras, desde el año 2026, en formato
+			digital, con enfoque en las ciencias agropecuarias y áreas afines, y con revisión
+			por pares de doble ciego. Su objetivo es difundir la producción científica de
+			docentes e investigadores, en un inicio de la propia UNAG, con proyección a
+			ampliarse a investigadores nacionales, en los diversos campos relacionados
+			con la producción agropecuaria, el desarrollo rural y la sostenibilidad.
+		</p>
+	</section>
+
+	<section class="max-w-7xl mx-auto mt-25 mb-15 z-1 p-3 md:p-0">
+		<h1 class="texto-cursiva text-7xl text-unag-dark-green">Artículos Publicables</h1>
+		<div class="grid grid-cols-2 md:grid-cols-3 gap-5">
+			<div class="flex flex-col justify-center items-center scale-75 md:scale-100">
+				<h2 class="text-unag-gray/15 text-[150px] font-bold leading-none">01</h2>
+				<p class="text-unag-gray leading-none font-black text-4xl">
+					Artículos <br> científicos
+				</p>
+			</div>
+			<div class="flex flex-col justify-center items-center scale-75 md:scale-100">
+				<h2 class="text-unag-light-gray text-[150px] font-bold leading-none">02</h2>
+				<p class="text-unag-gray leading-none font-black text-4xl">
+					Notas <br> científicas
+				</p>
+			</div>
+			<div class="flex flex-col justify-center items-center scale-75 md:scale-100">
+				<h2 class="text-unag-gray/15 text-[150px] font-bold leading-none">03</h2>
+				<p class="text-unag-gray leading-none font-black text-4xl">
+					Artículos de <br> revisión
+				</p>
+			</div>
+			<div class="flex flex-col justify-center items-center scale-75 md:scale-100">
+				<h2 class="text-unag-gray/15 text-[150px] font-bold leading-none">04</h2>
+				<p class="text-unag-gray leading-none font-black text-4xl">
+					Ensayos <br> académicos
+				</p>
+			</div>
+			<div class="flex flex-col justify-center items-center scale-75 md:scale-100">
+				<h2 class="text-unag-gray/15 text-[150px] font-bold leading-none">05</h2>
+				<p class="text-unag-gray leading-none font-black text-4xl">
+					Notas <br> técnicas
+				</p>
+			</div>
+			<div class="flex flex-col justify-center items-center scale-75 md:scale-100">
+				<h2 class="text-unag-gray/15 text-[150px] font-bold leading-none">06</h2>
+				<p class="text-unag-gray leading-none font-black text-4xl">
+					Estudios de <br> caso
+				</p>
+			</div>
+
+		</div>
+	</section>
 	<Footer />
 </Main>
