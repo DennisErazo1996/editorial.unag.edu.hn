@@ -1,0 +1,60 @@
+---
+import Footer from '@/components/astro/footer.astro';
+import Header from '@/components/astro/header.astro';
+import Main from '@/layouts/Main.astro';
+import { ShieldCheck } from 'lucide-astro';
+
+const politicas = [
+	'Ética de la publicación',
+	'Autoría y contribuciones',
+	'Originalidad y plagio',
+	'Propiedad intelectual',
+	'Conflictos de interés',
+	'Consentimiento informado',
+	'Faltas o conflictos éticos',
+	'Quejas o correcciones por publicación',
+	'Uso de inteligencia artificial',
+	'Ética del comité editorial y de los revisores',
+];
+---
+
+<Main>
+	<Header />
+
+	<section class="relative bg-[url('/img/bg-pagina.png')] bg-cover bg-center bg-no-repeat">
+		<div class="absolute inset-0 bg-linear-to-t from-unag-dark-green via-unag-dark-green/80 to-transparent"></div>
+		<div class="relative z-10 max-w-7xl mx-auto -bottom-15 px-5 md:px-0 pt-16 pb-20 md:pt-24 md:pb-40">
+			<span class="text-unag-yellow text-xs md:text-sm font-bold uppercase tracking-widest">
+				Acerca de
+			</span>
+			<h1 class="texto-cursiva text-6xl md:text-8xl text-white mt-2">Políticas</h1>
+		</div>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 mb-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<ShieldCheck class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">
+				Políticas de la revista
+			</h2>
+		</div>
+		<dl class="mt-6 divide-y divide-unag-light-gray border-t border-b border-unag-light-gray">
+			{
+				politicas.map((titulo, i) => (
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-6 py-4">
+						<dt class="font-bold text-unag-dark-green">
+							{i + 1}. {titulo}
+						</dt>
+						<dd class="md:col-span-2">
+							<span class="inline-block bg-unag-overlay-green text-unag-dark-green text-xs font-semibold rounded-full px-3 py-1">
+								Contenido pendiente
+							</span>
+						</dd>
+					</div>
+				))
+			}
+		</dl>
+	</section>
+
+	<Footer />
+</Main>

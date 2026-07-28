@@ -1,0 +1,212 @@
+---
+import Footer from '@/components/astro/footer.astro';
+import Header from '@/components/astro/header.astro';
+import Main from '@/layouts/Main.astro';
+import { Users, Microscope, MapPin, Globe, Wrench } from 'lucide-astro';
+
+const avatar = (nombre: string, apellido: string) =>
+	`https://ui-avatars.com/api/?name=${nombre}+${apellido}&size=200&background=1ba333&color=fff&bold=true`;
+
+const comiteEditorial = [
+	{ nombre: 'Mario', apellido: 'Talavera', grado: 'Ph.D.', rol: 'Director Editorial' },
+	{ nombre: 'Juan Pablo', apellido: 'Suazo', grado: 'Ph.D.', rol: 'Editor en jefe' },
+	{ nombre: 'Héctor', apellido: 'Gómez', grado: 'Ph.D.', rol: 'Coeditor' },
+	{ nombre: 'Jhunior', apellido: 'Marcia', grado: 'Ph.D.', rol: 'Secretario Editorial' },
+	{ nombre: 'Noe', apellido: 'Sandoval', grado: 'M.S.', rol: 'Técnico operativo' },
+];
+
+const comiteUnag = [
+	{ nombre: 'Miguel Ángel', apellido: 'Corea', grado: 'Ph.D.' },
+	{ nombre: 'Carlos Manuel', apellido: 'Ulloa', grado: 'Ph.D.' },
+	{ nombre: 'Emerson', apellido: 'Marinez', grado: 'Ph.D.' },
+	{ nombre: 'José Trinidad', apellido: 'Ryes', grado: 'Ph.D.' },
+];
+
+const comiteNacional = [
+	{
+		nombre: 'Marlon',
+		apellido: 'López',
+		grado: 'Ph.D.',
+		detalle: 'Jefe de área de producción FHIA.',
+	},
+	{
+		nombre: 'José Hernán',
+		apellido: 'Montúfar',
+		grado: 'Ph.D.',
+		detalle: 'Vicerrector de Investigación y Postgrado UPNFM.',
+	},
+];
+
+const comiteInternacional = [
+	{
+		nombre: 'Ramiro',
+		apellido: 'Villega',
+		grado: 'Ph.D.',
+		detalle: 'Universidad Técnica Estatal de Quevedo, Ecuador.',
+	},
+	{
+		nombre: 'Michael Silveira',
+		apellido: 'Thebaldi',
+		grado: 'Ph.D.',
+		detalle: 'Universidad Federal de Lavras, Brasil.',
+	},
+	{
+		nombre: 'Cristine Vanz',
+		apellido: 'Borges',
+		grado: 'Ph.D.',
+		detalle: 'Universidade Alto Vale do Rio do Peixe, Santa Catarina, Brasil.',
+	},
+];
+
+const comiteTecnico = [
+	{ nombre: 'Héctor', apellido: 'Navarro', grado: 'M.Sc.', rol: 'Soporte Operativo' },
+	{ nombre: 'Lesly', apellido: 'Salgado', grado: 'Lic.', rol: 'Diseño y maquetación' },
+	{ nombre: 'Noe', apellido: 'Sandoval', grado: 'M.Sc.', rol: 'Gestión de plataforma' },
+];
+---
+
+<Main>
+	<Header />
+
+	<section class="relative bg-[url('/img/bg-pagina.png')] bg-cover bg-center bg-no-repeat">
+		<div class="absolute inset-0 bg-linear-to-t from-unag-dark-green via-unag-dark-green/80 to-transparent"></div>
+		<div class="relative z-10 max-w-7xl mx-auto -bottom-15 px-5 md:px-0 pt-16 pb-20 md:pt-24 md:pb-40">
+			<span class="text-unag-yellow text-xs md:text-sm font-bold uppercase tracking-widest">
+				Acerca de
+			</span>
+			<h1 class="texto-cursiva text-6xl md:text-8xl text-white mt-2">Equipo editorial</h1>
+		</div>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<Users class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">Comité editorial</h2>
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-6">
+			{
+				comiteEditorial.map(({ nombre, apellido, grado, rol }) => (
+					<div class="bg-unag-overlay-green rounded-2xl px-5 py-4 flex items-center gap-4">
+						<img
+							src={avatar(nombre, apellido)}
+							alt={`${nombre} ${apellido}`}
+							class="w-12 h-12 rounded-full shrink-0"
+						/>
+						<div>
+							<p class="font-bold text-unag-dark-green">
+								{nombre} {apellido}, {grado}
+							</p>
+							<p class="text-sm text-unag-gray">{rol}</p>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<Microscope class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">
+				Comité científico asesor
+			</h2>
+		</div>
+
+		<h3 class="font-bold text-unag-dark-green mt-6">Representantes UNAG</h3>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+			{
+				comiteUnag.map(({ nombre, apellido, grado }) => (
+					<div class="bg-unag-overlay-green rounded-2xl px-5 py-3 flex items-center gap-3">
+						<img
+							src={avatar(nombre, apellido)}
+							alt={`${nombre} ${apellido}`}
+							class="w-10 h-10 rounded-full shrink-0"
+						/>
+						<p class="font-semibold text-unag-dark-green">
+							{nombre} {apellido}, {grado}
+						</p>
+					</div>
+				))
+			}
+		</div>
+
+		<h3 class="flex items-center gap-2 font-bold text-unag-dark-green mt-8">
+			<MapPin class="w-5 h-5 text-unag-green" /> Representantes Nacionales
+		</h3>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+			{
+				comiteNacional.map(({ nombre, apellido, grado, detalle }) => (
+					<div class="bg-unag-overlay-green rounded-2xl px-5 py-4 flex items-center gap-4">
+						<img
+							src={avatar(nombre, apellido)}
+							alt={`${nombre} ${apellido}`}
+							class="w-12 h-12 rounded-full shrink-0"
+						/>
+						<div>
+							<p class="font-bold text-unag-dark-green">
+								{nombre} {apellido}, {grado}
+							</p>
+							<p class="text-sm text-unag-gray">{detalle}</p>
+						</div>
+					</div>
+				))
+			}
+			<div class="bg-unag-overlay-green rounded-2xl px-5 py-4 flex items-center">
+				<span class="inline-block bg-white text-unag-dark-green text-xs font-semibold rounded-full px-3 py-1">
+					Pendiente
+				</span>
+			</div>
+		</div>
+
+		<h3 class="flex items-center gap-2 font-bold text-unag-dark-green mt-8">
+			<Globe class="w-5 h-5 text-unag-green" /> Representantes Internacionales
+		</h3>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+			{
+				comiteInternacional.map(({ nombre, apellido, grado, detalle }) => (
+					<div class="bg-unag-overlay-green rounded-2xl px-5 py-4 flex items-center gap-4">
+						<img
+							src={avatar(nombre, apellido)}
+							alt={`${nombre} ${apellido}`}
+							class="w-12 h-12 rounded-full shrink-0"
+						/>
+						<div>
+							<p class="font-bold text-unag-dark-green">
+								{nombre} {apellido}, {grado}
+							</p>
+							<p class="text-sm text-unag-gray">{detalle}</p>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 mb-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<Wrench class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">Comité técnico</h2>
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
+			{
+				comiteTecnico.map(({ nombre, apellido, grado, rol }) => (
+					<div class="bg-unag-overlay-green rounded-2xl px-5 py-4 flex items-center gap-4">
+						<img
+							src={avatar(nombre, apellido)}
+							alt={`${nombre} ${apellido}`}
+							class="w-12 h-12 rounded-full shrink-0"
+						/>
+						<div>
+							<p class="font-bold text-unag-dark-green">
+								{nombre} {apellido}, {grado}
+							</p>
+							<p class="text-sm text-unag-gray">{rol}</p>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<Footer />
+</Main>

@@ -1,0 +1,144 @@
+---
+import Footer from '@/components/astro/footer.astro';
+import Header from '@/components/astro/header.astro';
+import Main from '@/layouts/Main.astro';
+import { CalendarDays, ListChecks, Repeat, Info, Target } from 'lucide-astro';
+
+const tiposArticulos = [
+	'Artículos científicos originales',
+	'Notas científicas',
+	'Artículos de revisión',
+	'Ensayos académicos',
+	'Notas técnicas',
+	'Estudios de caso',
+];
+
+const caracteristicas = [
+	{ label: 'Formato', value: 'Digital' },
+	{
+		label: 'Contenido',
+		value:
+			'Multidisciplinario, con enfoque en producción agrícola y pecuaria, desarrollo rural, medicina veterinaria, sostenibilidad y áreas afines.',
+	},
+	{ label: 'Idioma', value: 'Español' },
+	{ label: 'Proceso de artículos', value: 'Sistema de revisión por pares de doble ciego' },
+	{ label: 'Dirección electrónica web', value: 'Pendiente', pending: true },
+	{ label: 'Difusión', value: 'Acceso abierto' },
+	{
+		label: 'Envío de artículos',
+		value: 'Vía formulario en sitio web UNAG. No se aceptan envíos por correo electrónico.',
+	},
+	{ label: 'Política de originalidad', value: 'Pendiente', pending: true },
+	{ label: 'Costo', value: 'Sin costo por publicación' },
+];
+---
+
+<Main>
+	<Header />
+
+	<section class="relative bg-[url('/img/bg-pagina.png')] bg-cover bg-center bg-no-repeat">
+		<div class="absolute inset-0 bg-linear-to-t from-unag-dark-green via-unag-dark-green/80 to-transparent"></div>
+		<div class="relative z-10 max-w-7xl mx-auto -bottom-15 px-5 md:px-0 pt-16 pb-20 md:pt-24 md:pb-40">
+			<span class="text-unag-yellow text-xs md:text-sm font-bold uppercase tracking-widest">
+				Acerca de
+			</span>
+			<h1 class="texto-cursiva text-6xl md:text-8xl text-white mt-2">Sobre la revista</h1>
+		</div>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<Target class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">Enfoque y alcance</h2>
+		</div>
+		<p class="text-unag-gray mt-4 leading-relaxed">
+			La Revista Científica UNAG es una publicación editada por la Universidad Nacional de
+			Agricultura (UNAG), Honduras, desde el año 2026, en formato digital, con enfoque en las
+			ciencias agropecuarias y áreas afines, y con revisión por pares de doble ciego. Su objetivo
+			es difundir la producción científica de docentes e investigadores, en un inicio de la
+			propia UNAG, con proyección a ampliarse a investigadores nacionales, en los diversos campos
+			relacionados con la producción agropecuaria, el desarrollo rural y la sostenibilidad.
+		</p>
+		<p class="text-unag-gray mt-4 leading-relaxed">
+			La revista es de acceso abierto y gratuito. Se maneja bajo una licencia{' '}
+			<a
+				href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-unag-green font-semibold hover:text-unag-dark-green transition-colors"
+			>
+				Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA
+				4.0)
+			</a>.
+		</p>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<ListChecks class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">
+				Tipos de artículos publicables
+			</h2>
+		</div>
+		<div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-6">
+			{
+				tiposArticulos.map((tipo) => (
+					<div class="bg-unag-overlay-green text-unag-dark-green font-semibold text-sm md:text-base rounded-2xl px-4 py-4 text-center flex items-center justify-center">
+						{tipo}
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<Repeat class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">Periodicidad</h2>
+		</div>
+		<p class="text-unag-gray mt-4 leading-relaxed">
+			La Revista Científica UNAG tiene una periodicidad semestral. No obstante, durante este
+			primer año la revista publicará un único número, dado que se encuentra en proceso de
+			consolidación; a partir del año 2027 se mantendrá la publicación semestral.
+		</p>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<Info class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">
+				Características generales
+			</h2>
+		</div>
+		<dl class="mt-6 divide-y divide-unag-light-gray border-t border-b border-unag-light-gray">
+			{
+				caracteristicas.map((item) => (
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-6 py-4">
+						<dt class="font-bold text-unag-dark-green">{item.label}</dt>
+						<dd class="md:col-span-2 text-unag-gray">
+							{item.pending ? (
+								<span class="inline-block bg-unag-overlay-green text-unag-dark-green text-xs font-semibold rounded-full px-3 py-1">
+									Pendiente
+								</span>
+							) : (
+								item.value
+							)}
+						</dd>
+					</div>
+				))
+			}
+		</dl>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 mb-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<CalendarDays class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">Calendario</h2>
+		</div>
+		<span class="inline-block mt-4 bg-unag-overlay-green text-unag-dark-green text-xs font-semibold rounded-full px-3 py-1">
+			Pendiente
+		</span>
+	</section>
+
+	<Footer />
+</Main>

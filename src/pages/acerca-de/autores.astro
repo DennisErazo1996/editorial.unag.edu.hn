@@ -1,0 +1,210 @@
+---
+import Footer from '@/components/astro/footer.astro';
+import Header from '@/components/astro/header.astro';
+import Main from '@/layouts/Main.astro';
+import { ClipboardCheck, BookOpen, FileText, Workflow, CheckCircle2 } from 'lucide-astro';
+
+const envios = [
+	{ texto: 'El envío no ha sido publicado previamente ni enviado a otra revista.' },
+	{ texto: 'Archivo en formato Microsoft Word, siguiendo las normas de la revista.' },
+	{ texto: 'Artículo revisado por ortografía y calidad del idioma.' },
+	{
+		texto:
+			'Página de título con nombres de autores y afiliaciones en documento separado.',
+	},
+	{
+		texto:
+			'Cuerpo del artículo en documento separado, sin autores/afiliaciones ni datos que identifiquen a los autores, para asegurar la revisión ciega.',
+	},
+	{
+		texto:
+			'Autor corresponsal con datos de contacto y número ORCID obligatorio (todos los autores deben contar con ORCID, obtenerlo en orcid.org).',
+	},
+	{ texto: 'Lista de 5 palabras clave usando descriptores oficiales.', pendiente: true },
+	{
+		texto:
+			'Figuras y tablas con título, citadas en el texto según orden de aparición, en formato editable.',
+	},
+	{ texto: 'Referencias bibliográficas citadas en el texto.', pendiente: true },
+	{ texto: 'Formulario de Originalidad y Formulario de Conflicto de Intereses firmados.' },
+];
+
+const tematica = [
+	'Producción agrícola y pecuaria',
+	'Desarrollo rural',
+	'Medicina veterinaria',
+	'Territorio y sostenibilidad',
+	'Sanidad animal',
+	'Comunidades y gestión local',
+	'Zootecnia y sistemas de producción animal',
+	'Economía agraria',
+	'Agroecología',
+	'Política y legislación agraria',
+	'Recursos naturales y ambiente',
+	'Innovación y tecnología aplicada al sector agropecuario',
+	'Biodiversidad y conservación',
+	'Tecnología alimentaria',
+	'Empresas agrarias',
+	'Educación y extensión en áreas afines',
+	'Gestión de sistemas productivos',
+	'Cambio climático',
+	'Seguridad alimentaria',
+	'Pueblos indígenas',
+	'Otras',
+];
+
+const preparacion = [
+	{
+		label: 'Título',
+		value: 'Límite sugerido de 15 palabras que reflejen el contenido del artículo.',
+		pendiente: true,
+	},
+	{
+		label: 'Autores y afiliaciones',
+		value:
+			'En superíndice cuando haya más de un autor/afiliación; incluir departamento, facultad o institución, ciudad y país. Deben ir en página separada del resto del artículo para revisión anónima.',
+	},
+	{
+		label: 'Texto',
+		value:
+			'Papel tamaño carta, formato Word oficial de la revista, espacio simple, párrafos sugeridos de 8-10 líneas, sin pies de página.',
+		confirmar: true,
+	},
+	{
+		label: 'Resumen',
+		value:
+			'Síntesis de los aspectos relevantes, límite sugerido de 225 palabras, estructurado según el tipo de artículo.',
+		confirmar: true,
+	},
+	{
+		label: 'Palabras clave',
+		value: '5 palabras, primera letra en mayúscula, orden alfabético, de catálogo oficial.',
+		confirmar: true,
+	},
+	{
+		label: 'Tablas',
+		value:
+			'Numeradas según orden de aparición, con título breve arriba, líneas horizontales mínimas, sin líneas verticales.',
+	},
+	{
+		label: 'Figuras',
+		value: 'Formato TIFF o JPEG, resolución mínima 300 dpi, título corto y numeración debajo.',
+	},
+	{
+		label: 'Abreviaturas y símbolos',
+		value: 'Uso mínimo, definidas la primera vez que aparecen.',
+	},
+	{ label: 'Unidades de medida', value: 'Por definir.', confirmar: true },
+	{
+		label: 'Reconocimientos',
+		value: 'Mención de colaboradores y patrocinio financiero, si aplica.',
+	},
+	{
+		label: 'Referencias bibliográficas',
+		value: 'Normas APA en su versión más reciente.',
+	},
+	{
+		label: 'Corrección de textos y calidad del idioma',
+		value:
+			'Responsabilidad de los autores; la revista se reserva el derecho de hacer ediciones de estilo previa aprobación de los autores.',
+	},
+];
+---
+
+<Main>
+	<Header />
+
+	<section class="relative bg-[url('/img/bg-pagina.png')] bg-cover bg-center bg-no-repeat">
+		<div class="absolute inset-0 bg-linear-to-t from-unag-dark-green via-unag-dark-green/80 to-transparent"></div>
+		<div class="relative z-10 max-w-7xl mx-auto -bottom-15 px-5 md:px-0 pt-16 pb-20 md:pt-24 md:pb-40">
+			<span class="text-unag-yellow text-xs md:text-sm font-bold uppercase tracking-widest">
+				Acerca de
+			</span>
+			<h1 class="texto-cursiva text-6xl md:text-8xl text-white mt-2">Autores</h1>
+		</div>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<ClipboardCheck class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">Envíos</h2>
+		</div>
+		<p class="text-unag-gray mt-4">Lista de comprobación antes de hacer envíos:</p>
+		<ul class="mt-4 space-y-3">
+			{
+				envios.map(({ texto, pendiente }) => (
+					<li class="flex items-start gap-3">
+						<CheckCircle2 class="w-5 h-5 text-unag-green shrink-0 mt-0.5" />
+						<span class="text-unag-gray">
+							{texto}
+							{pendiente && (
+								<span class="ml-2 inline-block bg-unag-overlay-green text-unag-dark-green text-xs font-semibold rounded-full px-3 py-1">
+									Pendiente
+								</span>
+							)}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<BookOpen class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">
+				Normas para los autores
+			</h2>
+		</div>
+		<p class="text-unag-gray mt-4">Temática de los artículos:</p>
+		<div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+			{
+				tematica.map((tema) => (
+					<div class="bg-unag-overlay-green text-unag-dark-green font-semibold text-sm rounded-2xl px-4 py-3 text-center flex items-center justify-center">
+						{tema}
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<FileText class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">
+				Preparación de los artículos
+			</h2>
+		</div>
+		<dl class="mt-6 divide-y divide-unag-light-gray border-t border-b border-unag-light-gray">
+			{
+				preparacion.map((item) => (
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-6 py-4">
+						<dt class="font-bold text-unag-dark-green">{item.label}</dt>
+						<dd class="md:col-span-2 text-unag-gray">
+							{item.value}
+							{(item.pendiente || item.confirmar) && (
+								<span class="ml-2 inline-block bg-unag-overlay-green text-unag-dark-green text-xs font-semibold rounded-full px-3 py-1">
+									{item.pendiente ? 'Pendiente' : 'Por confirmar'}
+								</span>
+							)}
+						</dd>
+					</div>
+				))
+			}
+		</dl>
+	</section>
+
+	<section class="max-w-5xl mx-auto mt-15 md:mt-20 mb-20 p-5 md:p-0">
+		<div class="flex items-center gap-3">
+			<Workflow class="w-7 h-7 text-unag-green shrink-0" />
+			<h2 class="texto-cursiva text-4xl md:text-5xl text-unag-dark-green">
+				Proceso del artículo
+			</h2>
+		</div>
+		<span class="inline-block mt-4 bg-unag-overlay-green text-unag-dark-green text-xs font-semibold rounded-full px-3 py-1">
+			Pendiente
+		</span>
+	</section>
+
+	<Footer />
+</Main>
