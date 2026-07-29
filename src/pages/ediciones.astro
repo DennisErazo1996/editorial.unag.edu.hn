@@ -1,0 +1,201 @@
+---
+import Footer from '@/components/astro/footer.astro';
+import Header from '@/components/astro/header.astro';
+import Main from '@/layouts/Main.astro';
+import { Download, Eye } from 'lucide-astro';
+
+interface Edition {
+  volume: string;
+  title: string;
+  date: string;
+  description: string;
+  articles: number;
+  authors: number;
+  cover: string;
+  viewUrl: string;
+  downloadUrl: string;
+}
+
+const editions: Edition[] = [
+  {
+    volume: "VOL. 1 (2026)",
+    title: "Innovación agrícola y sostenibilidad",
+    date: "15 de marzo de 2026",
+    description: "Un número dedicado a las prácticas agroecológicas, la seguridad alimentaria y las tecnologías emergentes aplicadas al campo hondureño.",
+    articles: 12,
+    authors: 24,
+    cover: "/img/demo-portada.png",
+    viewUrl: "/edicion/vol1-2026",
+    downloadUrl: "/download/vol1-2026.pdf"
+  },
+  {
+    volume: "VOL. 1 (2025)",
+    title: "Seguridad alimentaria y agricultura sostenible",
+    date: "20 de agosto de 2025",
+    description: "Artículos enfocados en sistemas de producción sostenibles, conservación de recursos naturales y políticas agrarias para el desarrollo rural en Honduras.",
+    articles: 8,
+    authors: 18,
+    cover: "/img/demo-portada.png",
+    viewUrl: "/edicion/vol1-2025",
+    downloadUrl: "/download/vol1-2025.pdf"
+  },
+  {
+    volume: "VOL. 1 (2025)",
+    title: "Seguridad alimentaria y agricultura sostenible",
+    date: "20 de agosto de 2025",
+    description: "Artículos enfocados en sistemas de producción sostenibles, conservación de recursos naturales y políticas agrarias para el desarrollo rural en Honduras.",
+    articles: 8,
+    authors: 18,
+    cover: "/img/demo-portada.png",
+    viewUrl: "/edicion/vol1-2025",
+    downloadUrl: "/download/vol1-2025.pdf"
+  },
+];
+
+const latestEdition = editions[0];
+const pastEditions = editions.slice(1);
+---
+
+<Main>
+  <Header />
+
+  <section class="relative bg-linear-to-b from-unag-dark-green to-[#0d2b1a] overflow-hidden">
+    <img src="/img/magazine-asset.png" alt="Fondo de la página" class="absolute hidden md:block select-none w-250 right-0 translate-y-110 translate-x-150 rotate-90" />
+    <div class="max-w-7xl mx-auto px-5 md:px-0 py-14 md:py-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
+        {/* Cover image */}
+        <div class="flex justify-center md:justify-start">
+          <div class="relative p-4">
+            <div class="absolute -inset-1 rounded-2xl bg-linear-to-br from-unag-yellow/20 to-white/5 blur-sm -z-10"></div>
+            <img
+              src={latestEdition.cover}
+              alt={latestEdition.title}
+              class="max-h-[50vh] md:h-full md:max-h-[60vh] w-auto max-w-full aspect-3/4 object-cover rounded-2xl shadow-2xl ring-1 ring-white/10"
+            />
+          </div>
+        </div>
+
+        {/* Info */}
+        <div class="flex flex-col justify-center items-center text-center md:text-left md:items-start">
+          <div class="flex items-center gap-3 mb-4">
+            
+            <span class="text-unag-yellow text-xs md:text-sm  tracking-widest">
+              Última edición publicada
+            </span>
+          </div>
+          <span class="text-unag-green text-sm md:text-base font-semibold tracking-wide mb-1">
+            {latestEdition.volume}
+          </span>
+          <h1 class="text-white text-4xl md:text-6xl font-bold leading-[1.1] mb-4">
+            {latestEdition.title}
+          </h1>
+          
+          <p class="text-white/80 text-sm md:text-sm mb-7 max-w-lg">
+            {latestEdition.description}
+          </p>
+
+          {/* Stats */}
+          <div class="flex gap-3 mb-8 text-sm">
+            <div class="bg-white/10 rounded-full px-4 py-1.5 text-white">
+              <span class="font-bold text-unag-yellow">{latestEdition.articles}</span> artículos
+            </div>
+            <div class="bg-white/10 rounded-full px-4 py-1.5 text-white">
+              <span class="font-bold text-unag-yellow">{latestEdition.authors}</span> autores
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a
+              href={latestEdition.viewUrl}
+              class="inline-flex items-center justify-center gap-2 bg-unag-green hover:bg-unag-light-green text-white hover:text-unag-dark-green transition-all text-sm px-5 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-[1.03]"
+            >
+              <Eye size={18} />
+              Ver edición
+            </a>
+            <a
+              href={latestEdition.downloadUrl}
+              class="inline-flex items-center justify-center gap-2 border border-unag-green hover:bg-unag-green text-white  text-sm px-5 py-2 rounded-full transition-all hover:shadow-lg hover:scale-[1.03]"
+            >
+              <Download size={18} />
+              Descargar PDF
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white z-1">
+    <div class="max-w-7xl mx-auto px-5 md:px-0 py-14 md:py-20">
+      <div class="border-t border-unag-light-gray pt-8 mb-10 md:mb-12">
+        <h2 class="text-3xl md:text-4xl font-semibold text-unag-dark-green texto-cursiva">
+          Ediciones anteriores
+        </h2>
+      </div>
+
+      <div class="space-y-6">
+        {pastEditions.map((edition) => (
+          <div class="bg-unag-light-gray/40 rounded-2xl p-6 md:p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-start">
+              {/* Cover image */}
+              <div class="flex justify-center md:justify-start">
+                <img
+                  src={edition.cover}
+                  alt={edition.title}
+                  class="w-48 md:w-56 aspect-3/4 object-cover rounded-lg shadow-lg"
+                />
+              </div>
+
+              {/* Info */}
+              <div class="flex flex-col justify-start">
+                <span class="text-unag-green text-sm font-semibold tracking-wide mb-1">
+                  {edition.volume}
+                </span>
+                <h3 class="text-xl md:text-2xl font-bold text-unag-dark-green mb-2">
+                  {edition.title}
+                </h3>
+                <p class="text-unag-gray text-sm mb-4">
+                  Publicado: {edition.date}
+                </p>
+                <p class="text-unag-gray text-sm mb-6 max-w-lg">
+                  {edition.description}
+                </p>
+
+                {/* Stats */}
+                <div class="flex gap-3 mb-6 text-sm">
+                  <div class="bg-white rounded-full px-4 py-1.5 text-unag-dark-green font-semibold shadow-sm">
+                    {edition.articles} artículos
+                  </div>
+                  <div class="bg-white rounded-full px-4 py-1.5 text-unag-dark-green font-semibold shadow-sm">
+                    {edition.authors} autores
+                  </div>
+                </div>
+
+                {/* Buttons */}
+                <div class="flex flex-col sm:flex-row gap-3">
+                  <a
+                    href={edition.viewUrl}
+                    class="inline-flex items-center justify-center gap-2 bg-unag-green hover:bg-unag-dark-green text-white hover:text-white  transition-all text-sm px-5 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-[1.03]"
+                  >
+                    <Eye size={18} />
+                    Ver edición
+                  </a>
+                  <a
+                    href={edition.downloadUrl}
+                    class="inline-flex items-center justify-center gap-2 border border-unag-dark-green hover:bg-unag-dark-green hover:border-unag-green text-unag-dark-green hover:text-white  text-sm px-5 py-2 rounded-full transition-all hover:shadow-lg hover:scale-[1.03]"
+                  >
+                    <Download size={18} />
+                    Descargar PDF
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Main>
