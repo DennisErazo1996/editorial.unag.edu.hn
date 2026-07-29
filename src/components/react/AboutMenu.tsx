@@ -46,7 +46,11 @@ const itemVariants = {
 	visible: { opacity: 1, y: 0, transition: { duration: 0.35 } },
 };
 
-export function AboutMenu() {
+interface AboutMenuProps {
+	variant?: "desktop" | "mobile";
+}
+
+export function AboutMenu({ variant = "desktop" }: AboutMenuProps) {
 	const [open, setOpen] = useState(false);
 	const [mounted, setMounted] = useState(false);
 
@@ -124,6 +128,8 @@ export function AboutMenu() {
 		</AnimatePresence>
 	);
 
+	const isMobile = variant === "mobile";
+
 	return (
 		<>
 			<button
@@ -131,7 +137,11 @@ export function AboutMenu() {
 				onClick={() => setOpen(true)}
 				aria-expanded={open}
 				aria-haspopup="dialog"
-				className="inline-flex items-center gap-1 hover:text-unag-yellow transition-colors cursor-pointer"
+				className={
+					isMobile
+						? "inline-flex items-center justify-between w-full text-unag-dark-green hover:text-unag-green py-2 transition-colors cursor-pointer"
+						: "inline-flex items-center gap-1 hover:text-unag-yellow transition-colors cursor-pointer"
+				}
 			>
 				Acerca de
 				<motion.span

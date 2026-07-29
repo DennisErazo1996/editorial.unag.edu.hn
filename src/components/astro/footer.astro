@@ -2,31 +2,35 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="relative z-1 h-full flex flex-col">
+<footer class="relative z-1 md:h-full flex flex-col">
 
     <img src="/img/bg-footer.jpg" alt="footer" class="absolute -z-1 right-0 bottom-0" />
     <img src="/img/bg-footer.jpg" alt="footer" class="absolute -z-1 left-0 bottom-0 -translate-x-10 hidden lg:flex" />
-    <p class="uppercase absolute font-black text-[45px] lg:text-[160px] leading-none text-unag-dark-green ml-5 lg:ml-30 top-29 lg:top-45 select-none">Cultivando</p>
     
+    <p class="lg:hidden uppercase font-black text-[45px] sm:text-[48px] md:text-[90px] leading-none text-unag-dark-green ml-5 sm:ml-8 md:ml-15 mt-auto select-none">Cultivando</p>
     
-    <div class="relative w-[90vw] lg:w-[70vw] h-140 md:h-150 bg-unag-dark-green rounded-tl-4xl rounded-tr-4xl mt-auto lg:mx-auto">
-        
-        <p class="z-1 absolute text-[50px] lg:text-[170px] leading-none text-white -translate-y-2 translate-x-5 lg:translate-x-20 texto-cursiva select-none ">Conocimiento
+    <p class="hidden lg:block uppercase absolute font-black text-[160px] leading-none text-unag-dark-green ml-30 top-45 select-none">Cultivando</p>
+
+
+    <div class="relative w-[90vw] lg:w-[70vw] h-auto min-h-120 sm:min-h-120 md:min-h-130 lg:h-150 bg-unag-dark-green rounded-tl-4xl rounded-tr-4xl mx-auto lg:mt-auto">
+
+        <p class="z-1 absolute text-[45px] sm:text-[48px] md:text-[85px] lg:text-[170px] leading-none text-white -translate-y-2 translate-x-5 lg:translate-x-20 texto-cursiva select-none">Conocimiento
         </p>
         
        <a href="/">
-         <img src="/img/logo-revista-blanco.png" alt="logo-revista-cientifica-unag" class="w-75 lg:w-110 absolute left-0 bottom-25 lg:bottom-5" />
+         <img src="/img/logo-revista-blanco.png" alt="logo-revista-cientifica-unag" class="w-65 lg:w-110 absolute left-0 bottom-25 lg:bottom-5" />
        </a>
         <img src="/img/logo-editorial.png" alt="logo-revista-cientifica-unag" class="w-50 lg:w-70 absolute right-0 bottom-15 lg:bottom-5" />
 
-        <div class="grid grid-cols-2 mt-50">
+        <div class="grid grid-cols-2 mt-20 md:mt-50">
             <div></div>
             <div>
                 <ul class="text-white text-sm text-end mr-10">
-                    <li class="mb-2"><a class="texto-cursiva text-4xl hover:text-unag-green" href="/">Portal</a></li>
-                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/revistas">Revistas</a></li>
-                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/editorial">Editorial</a></li>
-                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/contacto">Contacto</a></li>
+                    <li class="mb-2"><a class="texto-cursiva text-4xl hover:text-unag-green" href="https://unag.edu.hn" target="_blank" rel="noopener noreferrer">Portal</a></li>
+                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/autores">Autores</a></li>
+                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/equipo-editorial">Equipo Editorial</a></li>
+                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/politicas">Políticas</a></li>
+                    <li class="mb-2"><a class="text-md hover:text-unag-green" href="/enviar-articulo">Enviar Artículo</a></li>
                 </ul>
             </div>
 

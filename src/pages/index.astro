@@ -9,6 +9,33 @@ import { Asciify } from '@/components/react/Asciify';
 const linesAndTriangles = [
 	0, 4096, 31744, 4329604, 1118480, 17043521, 33080644, 33554431,
 ];
+
+const articulosPublicables = [
+	{
+		numero: '01',
+		nombre: 'Artículos científicos',
+	},
+	{
+		numero: '02',
+		nombre: 'Notas científicas',
+	},
+	{
+		numero: '03',
+		nombre: 'Artículos de revisión',
+	},
+	{
+		numero: '04',
+		nombre: 'Ensayos académicos',
+	},
+	{
+		numero: '05',
+		nombre: 'Notas técnicas',
+	},
+	{
+		numero: '06',
+		nombre: 'Estudios de caso',
+	},
+]
 ---
 
 <Main>
@@ -37,42 +64,16 @@ const linesAndTriangles = [
 	<section class="max-w-7xl mx-auto mt-25 mb-15 z-1 p-3 md:p-0">
 		<h1 class="texto-cursiva text-6xl md:text-7xl text-unag-dark-green">Artículos Publicables</h1>
 		<div class="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-20 md:mt-9">
-			<div class="flex flex-col justify-center md:items-center scale-75 md:scale-100 border-l border-t rounded-tl-4xl border-l-unag-dark-green border-t-unag-dark-green p-3 md:p-0">
-				<h2 class="text-unag-gray/15 text-9xl md:text-[130px] font-bold leading-none">01</h2>
-				<p class="text-unag-gray leading-none font-black text-2xl md:text-3xl">
-					Artículos <br> <span class="text-unag-green">científicos</span>
-				</p>
-			</div>
-			<div class="flex flex-col justify-center md:items-center scale-75 md:scale-100 border-l border-t rounded-tl-4xl border-l-unag-dark-green border-t-unag-dark-green p-3 md:p-0">
-				<h2 class="text-unag-light-gray text-9xl md:text-[130px] font-bold leading-none">02</h2>
-				<p class="text-unag-gray leading-none font-black text-2xl md:text-3xl">
-					Notas <br> <span class="text-unag-green">científicas</span>
-				</p>
-			</div>
-			<div class="flex flex-col justify-center md:items-center scale-75 md:scale-100 border-l border-t rounded-tl-4xl border-l-unag-dark-green border-t-unag-dark-green p-3 md:p-0">
-				<h2 class="text-unag-gray/15 text-9xl md:text-[130px] font-bold leading-none">03</h2>
-				<p class="text-unag-gray leading-none font-black text-2xl md:text-3xl">
-					Artículos de <br> <span class="text-unag-green">revisión</span>
-				</p>
-			</div>
-			<div class="flex flex-col justify-center md:items-center scale-75 md:scale-100">
-				<h2 class="text-unag-light-gray text-9xl md:text-[130px] font-bold leading-none">04</h2>
-				<p class="text-unag-gray leading-none font-black text-2xl md:text-3xl">
-					Ensayos <br> <span class="text-unag-green">académicos</span>
-				</p>
-			</div>
-			<div class="flex flex-col justify-center md:items-center scale-75 md:scale-100 border-l border-t rounded-tl-4xl border-l-unag-dark-green border-t-unag-dark-green p-3 md:p-0">
-				<h2 class="text-unag-gray/15 text-9xl md:text-[130px] font-bold leading-none">05</h2>
-				<p class="text-unag-gray leading-none font-black text-2xl md:text-3xl">
-					Notas <br> <span class="text-unag-green">técnicas</span>
-				</p>
-			</div>
-			<div class="flex flex-col justify-center md:items-center scale-75 md:scale-100">
-				<h2 class="text-unag-light-gray text-9xl md:text-[130px] font-bold leading-none">06</h2>
-				<p class="text-unag-gray leading-none font-black text-2xl md:text-3xl">
-					Estudios de <br> <span class="text-unag-green">caso</span>
-				</p>
-			</div>
+			{
+				articulosPublicables.map((item) => (
+					<div class="flex flex-col justify-center md:items-center scale-75 md:scale-100 border-l border-t rounded-tl-4xl border-l-unag-dark-green border-t-unag-dark-green p-3 md:p-0">
+						<h2 class="text-unag-gray/15 text-9xl md:text-[130px] font-bold leading-none">{item.numero}</h2>
+						<p class="text-unag-gray leading-none font-black text-2xl md:text-xl">
+							{item.nombre}
+						</p>
+					</div>
+				))
+			}
 
 		</div>
 	</section>
