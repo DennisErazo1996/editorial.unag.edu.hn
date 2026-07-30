@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { PageTextureSource } from "./pageTextures";
 
 const PAGE_H = 5.6;
-const FLIP_DURATION = 620; // ms
+const FLIP_DURATION = 780; // ms
 const MAX_PIXEL_RATIO = 2;
 const ZOOM_LEVELS = [9.4, 7.5, 6.0];
 const SWIPE_THRESHOLD = 50; // px
@@ -87,15 +87,16 @@ export function useFlipbook(pdfUrl: string) {
 		camera.position.set(0, 0, ZOOM_LEVELS[0]);
 
 		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		renderer.outputColorSpace = THREE.SRGBColorSpace;
 		renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO));
 		renderer.setSize(container.clientWidth, container.clientHeight);
 		container.appendChild(renderer.domElement);
 
-		scene.add(new THREE.AmbientLight(0xfff2d8, 0.85));
-		const key = new THREE.DirectionalLight(0xfff6e6, 0.9);
+		scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+		const key = new THREE.DirectionalLight(0xffffff, 0.9);
 		key.position.set(3, 4, 6);
 		scene.add(key);
-		const rim = new THREE.DirectionalLight(0xbfd8ff, 0.25);
+		const rim = new THREE.DirectionalLight(0xe8f0ff, 0.2);
 		rim.position.set(-4, -2, 3);
 		scene.add(rim);
 
@@ -139,16 +140,16 @@ export function useFlipbook(pdfUrl: string) {
 			});
 		}
 
+		const matFor = (tex: THREE.Texture) =>
+			new THREE.MeshStandardMaterial({
+				map: tex,
+				roughness: 0.92,
+				metalness: 0.02,
+				side: THREE.DoubleSide,
+			});
+
 		/** Reconstruye la(s) malla(s) estática(s) para la página/spread actual. */
 		async function buildView() {
-			const matFor = (tex: THREE.Texture) =>
-				new THREE.MeshStandardMaterial({
-					map: tex,
-					roughness: 0.92,
-					metalness: 0.02,
-					side: THREE.DoubleSide,
-				});
-
 			if (leftMesh) {
 				scene.remove(leftMesh);
 				leftMesh = null;
@@ -210,17 +211,49 @@ export function useFlipbook(pdfUrl: string) {
 			const angle = progress * Math.PI;
 			const spineX = direction === 1 ? -width / 2 : width / 2;
 			const sign = direction === 1 ? 1 : -1;
+			// Arco de "levantamiento" — el borde libre se separa del libro
+			// como una hoja real, en vez de rotar como una tapa rígida.
+			const lift = Math.sin(angle) * 0.55;
 			for (let i = 0; i < pos.count; i++) {
 				const x0 = orig[i * 3];
 				const y0 = orig[i * 3 + 1];
 				const d = sign * (x0 - spineX);
-				const curl = Math.sin(Math.PI * (d / width)) * 0.14 * Math.sin(angle);
+				const edgeFactor = d / width; // 0 en el lomo, 1 en el borde libre
+				const curl = Math.sin(Math.PI * edgeFactor) * 0.4 * Math.sin(angle);
 				const x = spineX + sign * Math.cos(angle) * d;
-				const z = Math.sin(angle) * d + curl;
+				const z = Math.sin(angle) * d + curl + lift * edgeFactor;
 				pos.setXYZ(i, x, y0, z);
 			}
 			pos.needsUpdate = true;
 			geo.computeVertexNormals();
+		}
+
+		/** Ease natural de vuelta de página: arranque suave, aceleración media, asiento suave. */
+		function pageEase(t: number) {
+			return t < 0.5
+				? 4 * t * t * t
+				: 1 - Math.pow(-2 * t + 2, 3) / 2;
+		}
+
+		/** Textura espejada horizontalmente: usada en la cara trasera de la hoja
+		 * para que, tras el giro de 180°, el contenido se vea en su orientación
+		 * correcta (no invertido) en vez de repetir la textura frontal. */
+		function mirroredTexture(tex: THREE.Texture): THREE.Texture {
+			const mirrored = tex.clone();
+			mirrored.wrapS = THREE.RepeatWrapping;
+			mirrored.repeat.x = -1;
+			mirrored.offset.x = 1;
+			mirrored.needsUpdate = true;
+			return mirrored;
+		}
+
+		function disposeMesh(mesh: THREE.Mesh | null) {
+			if (!mesh) return;
+			scene.remove(mesh);
+			mesh.geometry.dispose();
+			const mat = mesh.material;
+			if (Array.isArray(mat)) mat.forEach((m) => m.dispose());
+			else mat.dispose();
 		}
 
 		function flip(direction: 1 | -1) {
@@ -233,7 +266,8 @@ export function useFlipbook(pdfUrl: string) {
 			dirty = true;
 			const w = pageWidth();
 
-			const flippingNum =
+			// Página visible que empieza a girar (cara frontal de la hoja física).
+			const frontNum =
 				direction === 1
 					? mode === "spread"
 						? (currentPage % 2 === 0 ? currentPage : currentPage - 1) + 1
@@ -243,46 +277,154 @@ export function useFlipbook(pdfUrl: string) {
 							? currentPage
 							: currentPage - 1
 						: currentPage - 1;
+			// Cara trasera de esa misma hoja: lo que queda mirando a cámara al
+			// completar el giro (misma hoja física, no una página nueva).
+			const backNum = direction === 1 ? frontNum + 1 : frontNum - 1;
+			// Página que queda expuesta en el hueco que la hoja deja libre —
+			// se construye y coloca desde ya para que se vea "detrás" mientras
+			// la hoja se levanta, en vez de aparecer de golpe al terminar.
+			const revealNum = backNum + direction;
 
-			const clamped = Math.max(1, Math.min(totalPages, flippingNum));
+			const clampedFront = Math.max(1, Math.min(totalPages, frontNum));
 
-			void source.getTexture(clamped).then((tex) => {
+			void Promise.all([
+				source.getTexture(clampedFront),
+				backNum >= 1 && backNum <= totalPages
+					? source.getTexture(backNum)
+					: Promise.resolve(null),
+				mode === "spread" && revealNum >= 1 && revealNum <= totalPages
+					? source.getTexture(revealNum)
+					: Promise.resolve(null),
+			]).then(([frontTex, backTex, revealTex]) => {
 				if (disposed) return;
-				const geo = new THREE.PlaneGeometry(w, PAGE_H, 24, 2);
+
+				// La hoja opuesta a la que gira ya no pertenece al spread nuevo
+				// (queda "cerrada" del otro lado del libro) — se retira de una
+				// vez para no competir visualmente con la página revelada.
+				if (mode === "spread") {
+					if (direction === 1) {
+						disposeMesh(leftMesh);
+						leftMesh = null;
+					} else {
+						disposeMesh(rightMesh);
+						rightMesh = null;
+					}
+				}
+
+				let revealMesh: THREE.Mesh | null = null;
+				if (revealTex) {
+					const rgeo = new THREE.PlaneGeometry(w, PAGE_H);
+					revealMesh = new THREE.Mesh(rgeo, matFor(revealTex));
+					revealMesh.position.set(
+						direction === 1 ? w / 2 + 0.01 : -w / 2 - 0.01,
+						0,
+						0,
+					);
+					scene.add(revealMesh);
+				}
+
+				const geo = new THREE.PlaneGeometry(w, PAGE_H, 32, 4);
 				geo.userData.orig = Float32Array.from(geo.attributes.position.array);
-				const mat = new THREE.MeshStandardMaterial({
-					map: tex,
+				const frontMat = new THREE.MeshStandardMaterial({
+					map: frontTex,
 					roughness: 0.9,
-					side: THREE.DoubleSide,
+					side: THREE.FrontSide,
 				});
-				flipMesh = new THREE.Mesh(geo, mat);
-				flipMesh.position.set(
+				const group = new THREE.Group();
+				const frontFace = new THREE.Mesh(geo, frontMat);
+				group.add(frontFace);
+
+				let backMat: THREE.MeshStandardMaterial | null = null;
+				if (backTex) {
+					backMat = new THREE.MeshStandardMaterial({
+						map: mirroredTexture(backTex),
+						roughness: 0.9,
+						side: THREE.BackSide,
+					});
+					group.add(new THREE.Mesh(geo, backMat));
+				}
+				group.position.set(
 					direction === 1 ? w / 2 + 0.01 : -w / 2 - 0.01,
 					0,
 					0.02,
 				);
-				scene.add(flipMesh);
+				scene.add(group);
+				flipMesh = frontFace;
 
 				if (direction === 1 && rightMesh) rightMesh.visible = false;
 				if (direction === -1 && leftMesh) leftMesh.visible = false;
 				if (mode === "single" && rightMesh) rightMesh.visible = false;
 
+				const shadowMat = shadowMesh.material as THREE.MeshBasicMaterial;
+				const baseShadowOpacity = 0.55;
+
 				const start = performance.now();
 				const step = (now: number) => {
 					if (disposed) return;
 					const t = Math.min(1, (now - start) / FLIP_DURATION);
-					const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+					const eased = pageEase(t);
 					bendGeometry(geo, eased, w, direction);
+					// La sombra se profundiza mientras la página se separa del
+					// libro y vuelve a su tono base al asentarse, reforzando
+					// la sensación de profundidad de una hoja real.
+					const liftAmount = Math.sin(eased * Math.PI);
+					shadowMat.opacity = baseShadowOpacity + liftAmount * 0.3;
+					shadowMesh.scale.set(1 + liftAmount * 0.12, 1, 1);
 					dirty = true;
 					if (t < 1) {
 						requestAnimationFrame(step);
 					} else {
-						if (flipMesh) scene.remove(flipMesh);
+						scene.remove(group);
 						geo.dispose();
+						frontMat.dispose();
+						if (backMat) {
+							backMat.map?.dispose();
+							backMat.dispose();
+						}
 						flipMesh = null;
+						shadowMat.opacity = baseShadowOpacity;
+						shadowMesh.scale.set(1, 1, 1);
 						currentPage = Math.max(1, Math.min(totalPages, targetPage));
 						animating = false;
-						void buildView();
+
+						if (mode === "spread") {
+							// La cara trasera de la hoja ya mostraba la página
+							// correcta en su posición final: se promueve a malla
+							// estática directamente, sin reconstruir ni esperar
+							// una nueva textura (evita el "flash" final).
+							const restTex = backTex ?? frontTex;
+							const rgeo2 = new THREE.PlaneGeometry(w, PAGE_H);
+							const restMesh = new THREE.Mesh(rgeo2, matFor(restTex));
+							restMesh.position.set(
+								direction === 1 ? -w / 2 - 0.01 : w / 2 + 0.01,
+								0,
+								0,
+							);
+							scene.add(restMesh);
+							if (direction === 1) {
+								leftMesh = restMesh;
+								if (revealMesh) {
+									revealMesh.visible = true;
+									rightMesh = revealMesh;
+								} else {
+									rightMesh = null;
+								}
+							} else {
+								rightMesh = restMesh;
+								if (revealMesh) {
+									revealMesh.visible = true;
+									leftMesh = revealMesh;
+								} else {
+									leftMesh = null;
+								}
+							}
+							source.preloadAround(currentPage);
+							dirty = true;
+							updatePublicState();
+						} else {
+							if (revealMesh) disposeMesh(revealMesh);
+							void buildView();
+						}
 					}
 				};
 				requestAnimationFrame(step);

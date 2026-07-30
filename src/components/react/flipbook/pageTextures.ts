@@ -71,6 +71,7 @@ export class PageTextureSource {
 		await page.render({ canvas, canvasContext, viewport }).promise;
 
 		const texture = new THREE.CanvasTexture(canvas);
+		texture.colorSpace = THREE.SRGBColorSpace;
 		texture.generateMipmaps = false;
 		texture.minFilter = THREE.LinearFilter;
 		texture.magFilter = THREE.LinearFilter;
