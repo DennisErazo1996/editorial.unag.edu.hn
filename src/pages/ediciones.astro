@@ -2,7 +2,8 @@
 import Footer from '@/components/astro/footer.astro';
 import Header from '@/components/astro/header.astro';
 import Main from '@/layouts/Main.astro';
-import { Download, Eye } from 'lucide-astro';
+import { MagazineViewer } from '@/components/react/MagazineViewer';
+import { Download } from 'lucide-astro';
 
 interface Edition {
   volume: string;
@@ -12,7 +13,7 @@ interface Edition {
   articles: number;
   authors: number;
   cover: string;
-  viewUrl: string;
+  pdfUrl: string;
   downloadUrl: string;
 }
 
@@ -25,8 +26,8 @@ const editions: Edition[] = [
     articles: 12,
     authors: 24,
     cover: "/img/demo-portada.png",
-    viewUrl: "/edicion/vol1-2026",
-    downloadUrl: "/download/vol1-2026.pdf"
+    pdfUrl: "/docs/revista/vol1-2026.pdf",
+    downloadUrl: "/docs/revista/vol1-2026.pdf"
   },
   {
     volume: "VOL. 1 (2025)",
@@ -36,8 +37,8 @@ const editions: Edition[] = [
     articles: 8,
     authors: 18,
     cover: "/img/demo-portada.png",
-    viewUrl: "/edicion/vol1-2025",
-    downloadUrl: "/download/vol1-2025.pdf"
+    pdfUrl: "/docs/revista/vol1-2025.pdf",
+    downloadUrl: "/docs/revista/vol1-2025.pdf"
   },
   {
     volume: "VOL. 1 (2025)",
@@ -47,8 +48,8 @@ const editions: Edition[] = [
     articles: 8,
     authors: 18,
     cover: "/img/demo-portada.png",
-    viewUrl: "/edicion/vol1-2025",
-    downloadUrl: "/download/vol1-2025.pdf"
+    pdfUrl: "/docs/revista/vol1-2025.pdf",
+    downloadUrl: "/docs/revista/vol1-2025.pdf"
   },
 ];
 
@@ -106,13 +107,13 @@ const pastEditions = editions.slice(1);
 
           {/* Buttons */}
           <div class="flex flex-col sm:flex-row gap-3">
-            <a
-              href={latestEdition.viewUrl}
-              class="inline-flex items-center justify-center gap-2 bg-unag-green hover:bg-unag-light-green text-white hover:text-unag-dark-green transition-all text-sm px-5 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-[1.03]"
-            >
-              <Eye size={18} />
-              Ver edición
-            </a>
+            <MagazineViewer
+              client:load
+              pdfUrl={latestEdition.pdfUrl}
+              title={latestEdition.title}
+              volume={latestEdition.volume}
+              variant="primary"
+            />
             <a
               href={latestEdition.downloadUrl}
               class="inline-flex items-center justify-center gap-2 border border-unag-green hover:bg-unag-green text-white  text-sm px-5 py-2 rounded-full transition-all hover:shadow-lg hover:scale-[1.03]"
@@ -174,13 +175,13 @@ const pastEditions = editions.slice(1);
 
                 {/* Buttons */}
                 <div class="flex flex-col sm:flex-row gap-3">
-                  <a
-                    href={edition.viewUrl}
-                    class="inline-flex items-center justify-center gap-2 bg-unag-green hover:bg-unag-dark-green text-white hover:text-white  transition-all text-sm px-5 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-[1.03]"
-                  >
-                    <Eye size={18} />
-                    Ver edición
-                  </a>
+                  <MagazineViewer
+                    client:load
+                    pdfUrl={edition.pdfUrl}
+                    title={edition.title}
+                    volume={edition.volume}
+                    variant="secondary"
+                  />
                   <a
                     href={edition.downloadUrl}
                     class="inline-flex items-center justify-center gap-2 border border-unag-dark-green hover:bg-unag-dark-green hover:border-unag-green text-unag-dark-green hover:text-white  text-sm px-5 py-2 rounded-full transition-all hover:shadow-lg hover:scale-[1.03]"

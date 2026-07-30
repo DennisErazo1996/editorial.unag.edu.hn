@@ -4,6 +4,7 @@ import Header from '@/components/astro/header.astro';
 import Hero from '@/components/astro/hero.astro';
 import Main from '@/layouts/Main.astro';
 import { Asciify } from '@/components/react/Asciify';
+import { FlaskConical, FileText, BookOpen, PenTool, Wrench, ClipboardList } from 'lucide-astro';
 
 // Custom ramp: vacío, punto, línea horizontal, línea vertical, diagonal \, diagonal /, triángulo, lleno
 const linesAndTriangles = [
@@ -14,26 +15,32 @@ const articulosPublicables = [
 	{
 		numero: '01',
 		nombre: 'Artículos científicos',
+		icon: FlaskConical,
 	},
 	{
 		numero: '02',
 		nombre: 'Notas científicas',
+		icon: FileText,
 	},
 	{
 		numero: '03',
 		nombre: 'Artículos de revisión',
+		icon: BookOpen,
 	},
 	{
 		numero: '04',
 		nombre: 'Ensayos académicos',
+		icon: PenTool,
 	},
 	{
 		numero: '05',
 		nombre: 'Notas técnicas',
+		icon: Wrench,
 	},
 	{
 		numero: '06',
 		nombre: 'Estudios de caso',
+		icon: ClipboardList,
 	},
 ]
 ---
@@ -61,20 +68,24 @@ const articulosPublicables = [
 		
 	</section>
 
-	<section class="max-w-7xl mx-auto mt-25 mb-15 z-1 p-3 md:p-0">
+	<section class="max-w-7xl mx-auto mt-20 md:mt-35 mb-15 z-1 p-5 md:p-0">
 		<h1 class="texto-cursiva text-6xl md:text-7xl text-unag-dark-green">Artículos Publicables</h1>
-		<div class="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-20 md:mt-9">
+		<div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mt-8 md:mt-9">
 			{
 				articulosPublicables.map((item) => (
-					<div class="flex flex-col justify-center md:items-center scale-75 md:scale-100 border-l border-t rounded-tl-4xl border-l-unag-dark-green border-t-unag-dark-green p-3 md:p-0">
-						<h2 class="text-unag-gray/15 text-9xl md:text-[130px] font-bold leading-none">{item.numero}</h2>
-						<p class="text-unag-gray leading-none font-black text-2xl md:text-xl">
+					<div class="group relative flex flex-col items-start gap-4 rounded-2xl border border-unag-gray/15 p-5 md:p-6 transition-all hover:border-unag-dark-green hover:shadow-lg">
+						<span class="absolute top-4 right-5 text-unag-gray/20 font-black text-4xl">
+							{item.numero}
+						</span>
+						<div class="flex items-center justify-center w-12 h-12 rounded-full bg-unag-dark-green/5 text-unag-dark-green transition-colors group-hover:bg-unag-dark-green group-hover:text-white">
+							<item.icon size={24} />
+						</div>
+						<p class="text-unag-dark-green font-black text-lg md:text-xl leading-tight">
 							{item.nombre}
 						</p>
 					</div>
 				))
 			}
-
 		</div>
 	</section>
 

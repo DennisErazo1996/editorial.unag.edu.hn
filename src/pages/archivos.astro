@@ -1,0 +1,207 @@
+---
+import Footer from '@/components/astro/footer.astro';
+import Header from '@/components/astro/header.astro';
+import Main from '@/layouts/Main.astro';
+import { DocumentTabs } from '@/components/react/DocumentTabs';
+
+interface DocFile {
+  code: string;
+  title: string;
+  file: string;
+}
+
+interface Tab {
+  id: string;
+  label: string;
+  basePath: string;
+  files: DocFile[];
+}
+
+const tabs: Tab[] = [
+  {
+    id: 'revisores',
+    label: 'Revisores',
+    basePath: '/docs/revisores',
+    files: [
+      {
+        code: 'F-REV-01',
+        title: 'Aceptación de la invitación para revisar un manuscrito',
+        file: 'formato-f-rev-01-aceptacion-de-la-invitacion-para-revisar-un-manuscrito.pdf',
+      },
+      {
+        code: 'F-REV-02',
+        title: 'Formulario oficial de evaluación por pares (doble ciego)',
+        file: 'formato-f-rev-02-formulario-oficial-de-evaluacion-por-pares-doble-ciego.pdf',
+      },
+      {
+        code: 'F-REV-03',
+        title: 'Evaluación de la versión corregida del manuscrito',
+        file: 'formato-f-rev-03-evaluacion-de-la-version-corregida-del-manuscrito.pdf',
+      },
+      {
+        code: 'F-REV-04',
+        title: 'Declaración final del revisor',
+        file: 'formato-f-rev-04-declaracion-final-del-revisor.pdf',
+      },
+      {
+        code: 'F-REV-05',
+        title: 'Constancia de revisión realizada',
+        file: 'formato-f-rev-05-constancia-de-revision-realizada.pdf',
+      },
+    ],
+  },
+  {
+    id: 'editores',
+    label: 'Editores',
+    basePath: '/docs/editores',
+    files: [
+      {
+        code: 'F-EDI-01',
+        title: 'Revisión editorial preliminar del manuscrito',
+        file: 'formato-f-edi-01-revision-editorial-preliminar-del-manuscrito.pdf',
+      },
+      {
+        code: 'F-EDI-02',
+        title: 'Decisión editorial',
+        file: 'formato-f-edi-02-decision-editorial.pdf',
+      },
+      {
+        code: 'F-EDI-03',
+        title: 'Control y seguimiento del proceso editorial',
+        file: 'formato-f-edi-03-control-y-seguimiento-del-proceso-editorial.pdf',
+      },
+      {
+        code: 'F-EDI-04',
+        title: 'Control de edición, corrección de estilo y diagramación',
+        file: 'formato-f-edi-04-control-de-edicion-correccion-de-estilo-y-diagramacion.pdf',
+      },
+    ],
+  },
+  {
+    id: 'autores',
+    label: 'Autores',
+    basePath: '/docs/autores',
+    files: [
+      {
+        code: 'F-AUT-01',
+        title: 'Carta de presentación del manuscrito',
+        file: 'formato-f-aut-01-carta-de-presentacion-del-manuscrito.pdf',
+      },
+      {
+        code: 'F-AUT-02',
+        title: 'Lista de verificación para autores',
+        file: 'formato-f-aut-02-lista-de-verificacion-para-autores.pdf',
+      },
+      {
+        code: 'F-AUT-03',
+        title: 'Declaración de originalidad',
+        file: 'formato-f-aut-03-declaracion-de-originalidad.pdf',
+      },
+      {
+        code: 'F-AUT-04',
+        title: 'Declaración de autoría, contribuciones (CRediT), conflictos de interés, financiamiento y uso de inteligencia artificial',
+        file: 'formato-f-aut-04-declaracion-de-autoria-contribuciones-credit-conflictos-de-interes-financiamiento-y-uso-de-inteligencia-artificial.pdf',
+      },
+      {
+        code: 'F-AUT-05',
+        title: 'Cesión de derechos de publicación',
+        file: 'formato-f-aut-05-cesion-de-derechos-de-publicacion.pdf',
+      },
+      {
+        code: 'F-AUT-06',
+        title: 'Solicitud de retiro del manuscrito',
+        file: 'formato-f-aut-06-solicitud-de-retiro-del-manuscrito.pdf',
+      },
+      {
+        code: 'F-AUT-07',
+        title: 'Solicitud de publicación de material suplementario',
+        file: 'formato-f-aut-07-solicitud-de-publicacion-de-material-suplementario.pdf',
+      },
+    ],
+  },
+  {
+    id: 'etica',
+    label: 'Ética',
+    basePath: '/docs/etica',
+    files: [
+      {
+        code: 'F-ETI-01',
+        title: 'Registro de sospecha de plagio o similitud',
+        file: 'formato-f-eti-01-registro-de-sospecha-de-plagio-o-similitud.pdf',
+      },
+      {
+        code: 'F-ETI-02',
+        title: 'Investigación de posibles faltas a la integridad científica',
+        file: 'formato-f-eti-02-investigacion-de-posibles-faltas-a-la-integridad-cientifica.pdf',
+      },
+      {
+        code: 'F-ETI-03',
+        title: 'Registro de corrección, fe de erratas, expresión de preocupación o retractación',
+        file: 'formato-f-eti-03-registro-de-correccion-fe-de-erratas-expresion-de-preocupacion-o-retractacion.pdf',
+      },
+      {
+        code: 'F-ETI-04',
+        title: 'Registro de conflictos éticos y resolución',
+        file: 'formato-f-eti-04-registro-de-conflictos-eticos-y-resolucion.pdf',
+      },
+      {
+        code: 'F-ETI-05',
+        title: 'Acta de cumplimiento de principios éticos editoriales',
+        file: 'formato-f-eti-05-acta-de-cumplimiento-de-principios-eticos-editoriales.pdf',
+      },
+    ],
+  },
+  {
+    id: 'publicaciones',
+    label: 'Publicaciones',
+    basePath: '/docs/publicaciones',
+    files: [
+      {
+        code: 'F-PUB-01',
+        title: 'Programación de artículos para publicación',
+        file: 'formato-f-pub-01-programacion-de-articulos-para-publicacion.pdf',
+      },
+      {
+        code: 'F-PUB-02',
+        title: 'Control de metadatos y DOI',
+        file: 'formato-f-pub-02-control-de-metadatos-y-doi.pdf',
+      },
+      {
+        code: 'F-PUB-03',
+        title: 'Lista de verificación previa a la publicación',
+        file: 'formato-f-pub-03-lista-de-verificacion-previa-a-la-publicacion.pdf',
+      },
+      {
+        code: 'F-PUB-04',
+        title: 'Registro de publicación y difusión',
+        file: 'formato-f-pub-04-registro-de-publicacion-y-difusion.pdf',
+      },
+      {
+        code: 'F-PUB-05',
+        title: 'Control de indexación y preservación digital',
+        file: 'formato-f-pub-05-control-de-indexacion-y-preservacion-digital.pdf',
+      },
+    ],
+  },
+];
+---
+
+<Main>
+  <Header />
+
+  <section class="relative bg-[url('/img/bg-pagina.png')] bg-cover bg-center bg-no-repeat">
+    <div class="absolute inset-0 bg-linear-to-t from-unag-dark-green via-unag-dark-green/80 to-transparent"></div>
+    <div class="relative z-10 max-w-7xl mx-auto -bottom-15 px-5 md:px-0 pt-16 pb-20 md:pt-24 md:pb-40">
+      <span class="text-unag-yellow text-xs md:text-sm font-bold uppercase tracking-widest">
+        Sistema de Gestión Editorial
+      </span>
+      <h1 class="texto-cursiva text-6xl md:text-8xl text-white mt-2">Archivos</h1>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto mt-15 md:mt-20 mb-20 px-5 md:px-0">
+    <DocumentTabs tabs={tabs} client:load />
+  </section>
+
+  <Footer />
+</Main>

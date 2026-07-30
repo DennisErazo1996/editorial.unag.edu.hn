@@ -1,4 +1,18 @@
 ---
+import { MagazineViewer } from "@/components/react/MagazineViewer";
+
+const latestEdition = 
+    {
+        volume: "VOL. 1 (2026)",
+        title: "Innovación agrícola y sostenibilidad",
+        date: "15 de marzo de 2026",
+        description: "Un número dedicado a las prácticas agroecológicas, la seguridad alimentaria y las tecnologías emergentes aplicadas al campo hondureño.",
+        articles: 12,
+        authors: 24,
+        cover: "/img/demo-portada.png",
+        pdfUrl: "/docs/revista/vol1-2026.pdf",
+        downloadUrl: "/docs/revista/vol1-2026.pdf"
+    }
 
 ---
 
@@ -17,13 +31,19 @@
 
             <div class="relative flex flex-col justify-center items-center text-center md:text-left md:items-start px-8 md:px-6 mb-6">
                 <div class="md:absolute scale-85 md:scale-95 mb-3 top-10 right-10 bg-unag-overlay-green rounded-full px-3 py-1 text-sm">
-                    <p>Publicado: <span class="font-bold text-unag-dark-green">15 de marzo de 2026</span> </p>
+                    <p>Publicado: <span class="font-bold text-unag-dark-green">{latestEdition.date}</span> </p>
                 </div>
                 <span class="text-unag-yellow text-xs md:text-sm font-bold uppercase tracking-widest mb-3">Última edición publicada</span>
-                <h1 class="text-white text-2xl md:text-6xl font-bold leading-tight mb-4">VOL. 1 (2026): Innovación agrícola y sostenibilidad</h1>
-                <p class="text-white/80 text-xs md:text-sm mb-8 max-w-md">Un número dedicado a las prácticas agroecológicas, la seguridad alimentaria y las tecnologías emergentes aplicadas al campo hondureño.</p>
+                <h1 class="text-white text-2xl md:text-6xl font-bold leading-tight mb-4">{latestEdition.volume + ': ' + latestEdition.title}</h1>
+                <p class="text-white/80 text-xs md:text-sm mb-8 max-w-md">{latestEdition.description}</p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="/submit" class="inline-flex items-center justify-center bg-unag-green hover:bg-unag-light-green text-white hover:text-unag-dark-green font-bold transition-colors text-sm px-4 py-2 rounded-full shadow-sm">Ver edición completa</a>
+                   <MagazineViewer
+                        client:load
+                        pdfUrl={latestEdition.pdfUrl}
+                        title={latestEdition.title}
+                        volume={latestEdition.volume}
+                        variant="primary"
+                    />
                     <!-- <a href="/about" class="inline-flex items-center justify-center border border-white/40 hover:border-white text-white font-bold text-sm px-4 py-2 rounded-full transition-colors">Conocer más</a> -->
                 </div>
             </div>
