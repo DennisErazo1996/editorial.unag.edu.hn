@@ -115,3 +115,4 @@ export default function Flipbook({ pdfUrl }: FlipbookProps) {
 		</div>
 	);
 }
+

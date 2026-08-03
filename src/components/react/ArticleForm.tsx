@@ -74,6 +74,8 @@ function Field({
 export function ArticleForm() {
 	const [submitted, setSubmitted] = useState(false);
 	const [attempted, setAttempted] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [serverError, setServerError] = useState("");
 	const [areaTematica, setAreaTematica] = useState("");
 	const [areaOtra, setAreaOtra] = useState("");
 	const [declaraciones, setDeclaraciones] = useState<boolean[]>(
@@ -95,7 +97,7 @@ export function ArticleForm() {
 		setDeclaraciones((prev) => prev.map((v, i) => (i === index ? !v : v)));
 	}
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		setAttempted(true);
 		const form = e.currentTarget;
@@ -127,8 +129,22 @@ export function ArticleForm() {
 		setErrors(nextErrors);
 		if (Object.keys(nextErrors).length > 0) return;
 
-		// TODO: envío de correo a Editorial Universitaria con datos y adjuntos — pendiente de backend.
-		setSubmitted(true);
+		setLoading(true);
+		setServerError("");
+		try {
+			const data = new FormData(form);
+			const res = await fetch("/api/enviar-articulo", { method: "POST", body: data });
+			const json = await res.json();
+			if (json.ok) {
+				setSubmitted(true);
+			} else {
+				setServerError(json.error ?? "Error al enviar. Intente nuevamente.");
+			}
+		} catch {
+			setServerError("Error de conexión. Verificá tu internet e intentá de nuevo.");
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
@@ -161,7 +177,7 @@ export function ArticleForm() {
 						</p>
 						<button
 							type="button"
-							onClick={() => setSubmitted(false)}
+							onClick={() => {location.reload(); setSubmitted(false)}}
 							className="mt-8 inline-flex items-center justify-center bg-unag-green hover:bg-unag-yellow text-white hover:text-unag-dark-green font-bold text-sm px-6 py-2.5 rounded-full transition-colors cursor-pointer"
 						>
 							Enviar otro artículo
@@ -386,11 +402,16 @@ export function ArticleForm() {
 							<p className="text-sm text-red-600 -mt-8">{errors.form}</p>
 						)}
 
+						{serverError && (
+							<p className="text-sm text-red-600 -mt-8">{serverError}</p>
+						)}
+
 						<button
 							type="submit"
-							className="w-full md:w-auto inline-flex items-center justify-center bg-unag-green hover:bg-unag-yellow text-white hover:text-unag-dark-green font-bold text-sm px-8 py-3 rounded-full transition-colors cursor-pointer"
+							disabled={loading}
+							className="w-full md:w-auto inline-flex items-center justify-center bg-unag-green hover:bg-unag-yellow disabled:opacity-60 disabled:cursor-not-allowed text-white hover:text-unag-dark-green font-bold text-sm px-8 py-3 rounded-full transition-colors cursor-pointer"
 						>
-							Enviar artículo
+							{loading ? "Enviando..." : "Enviar artículo"}
 						</button>
 					</motion.form>
 				)}
