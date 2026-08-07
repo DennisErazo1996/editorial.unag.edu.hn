@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://editorial.unag.edu.hn/sitemap-index.xml

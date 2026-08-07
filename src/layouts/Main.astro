@@ -1,18 +1,56 @@
 ---
 import '@/styles/global.css'
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	noindex?: boolean;
+}
+
+const {
+	title = 'Editorial | Universidad Nacional de Agricultura',
+	description = 'Revista Científica UNAG: publicación digital de acceso abierto de la Universidad Nacional de Agricultura (UNAG), Honduras, con enfoque en ciencias agropecuarias, desarrollo rural y sostenibilidad.',
+	image = '/img/logo-editorial-verde.png',
+	noindex = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/img/unag-hoja.png" />
 		<link rel="icon" href="/img/unag-hoja.png" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="author" content="Dennis Armando Erazo Castro" />
 
-		<title>Editorial | Universidad Nacional de Agricultura</title>
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+		<meta name="theme-color" content="#1c4a26" />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Revista Científica UNAG" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={socialImageURL} />
+		<meta property="og:locale" content="es_HN" />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={socialImageURL} />
+
+		<slot name="head" />
 	</head>
 	<body>
 		<slot />
